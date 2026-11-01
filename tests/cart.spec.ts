@@ -18,9 +18,9 @@ test.describe('Cart - number of products (guest)', () => {
   });
 });
 
-test.describe('Cart - right product is added (guest)', () => {
+test.describe('Cart - right product is added (guest)',() => {
 
-  test('product 1 is Blue Top', async ({ homePage, cartPage }) => {
+  test('product 1 is Blue Top',{tag:'@cart'}, async ({ homePage, cartPage }) => {
     await homePage.addProductToCart(1);
     await homePage.openCart();
     await expect(cartPage.productName(1)).toHaveText('Blue Top');

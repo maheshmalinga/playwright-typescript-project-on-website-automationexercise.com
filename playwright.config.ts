@@ -9,6 +9,7 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true, /* Run tests in files in parallel */
   reporter: [['html', { open: 'never' }]],
+  workers: process.env.CI ? 2 : 2,
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
