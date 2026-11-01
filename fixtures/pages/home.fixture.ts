@@ -1,5 +1,5 @@
 
-import { test as base } from '@playwright/test';
+import { test as adBlock } from './base.fixture';
 import { HomePage } from '../../pages/home.page';
 
 /**
@@ -20,8 +20,9 @@ export type HomeFixtures = {
  * If you need a *bare* page object without navigation, add a second fixture
  * (`homePageNoNav`) or call `homePage.goto()` in `beforeEach` instead.
  */
-export const test = base.extend<HomeFixtures>({
+export const test = adBlock.extend<HomeFixtures>({
   homePage: async ({ page }, use) => {
+    await page.route(/googlesyndication|doubleclick|googleadservices|adservice\.google/, route => route.abort());
     const home = new HomePage(page);
     await home.goto();
 

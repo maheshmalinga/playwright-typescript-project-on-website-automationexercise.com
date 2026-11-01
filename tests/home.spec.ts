@@ -54,6 +54,119 @@ test.describe('Home page - header navigation', () => {
   }
 });
 
+test.describe('Home page - category sidebar', {tag:'@category'},() => {
+
+  // ---------- On page load ----------
+  test('Category sidebar and Women, Men, Kids are visible', async ({ homePage }) => {
+    await softExpect(homePage.categorySidebar).toBeVisible();
+    await softExpect(homePage.womenCategoryLink).toBeVisible();
+    await softExpect(homePage.menCategoryLink).toBeVisible();
+    await softExpect(homePage.kidsCategoryLink).toBeVisible();
+  });
+
+  // ---------- Pressing a category ----------
+  test('Pressing Women shows Dress, Tops and Saree', async ({ homePage }) => {
+    await homePage.womenCategoryLink.click();
+    await softExpect(homePage.womenDress).toBeVisible();
+    await softExpect(homePage.womenTops).toBeVisible();
+    await softExpect(homePage.womenSaree).toBeVisible();
+  });
+
+  test('Pressing Men shows Tshirts and Jeans', async ({ homePage }) => {
+    await homePage.menCategoryLink.click();
+    await softExpect(homePage.menTshirts).toBeVisible();
+    await softExpect(homePage.menJeans).toBeVisible();
+  });
+
+  test('Pressing Kids shows Dress and Tops & Shirts', async ({ homePage }) => {
+    await homePage.kidsCategoryLink.click();
+    await softExpect(homePage.kidsDress).toBeVisible();
+    await softExpect(homePage.kidsTopsShirts).toBeVisible();
+  });
+
+  test('Opening one category closes the one that was open', async ({ homePage }) => {
+    await homePage.menCategoryLink.click();
+    await expect(homePage.menPanel).toBeVisible();
+    await expect(homePage.womenPanel).toBeHidden();
+  });
+
+  // ---------- Clicking a sub link ----------
+  test.describe('Home page - category sub links',{tag:'@sublinks'}, () => {
+    // ---------- Women ----------
+    test('Women > Dress opens the Dress page', async ({ homePage, page }) => {
+      await homePage.womenCategoryLink.click();
+      await homePage.womenDress.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/1');
+      await expect(homePage.panelTitle).toHaveText('Women - Dress Products');
+    });
+
+    test('Women > Tops opens the Tops page', async ({ homePage, page }) => {
+      await homePage.womenCategoryLink.click();
+      await homePage.womenTops.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/2');
+      await expect(homePage.panelTitle).toHaveText('Women - Tops Products');
+    });
+
+    test('Women > Saree opens the Saree page', async ({ homePage, page }) => {
+      await homePage.womenCategoryLink.click();
+      await homePage.womenSaree.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/7');
+      await expect(homePage.panelTitle).toHaveText('Women - Saree Products');
+    });
+
+    // ---------- Men ----------
+    test('Men > Tshirts opens the Tshirts page', async ({ homePage, page }) => {
+      await homePage.menCategoryLink.click();
+      await homePage.menTshirts.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/3');
+      await expect(homePage.panelTitle).toHaveText('Men - Tshirts Products');
+    });
+
+    test('Men > Jeans opens the Jeans page', async ({ homePage, page }) => {
+      await homePage.menCategoryLink.click();
+      await homePage.menJeans.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/6');
+      await expect(homePage.panelTitle).toHaveText('Men - Jeans Products');
+    });
+
+    // ---------- Kids ----------
+    test('Kids > Dress opens the Dress page', async ({ homePage, page }) => {
+      await homePage.kidsCategoryLink.click();
+      await homePage.kidsDress.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/4');
+      await expect(homePage.panelTitle).toHaveText('Kids - Dress Products');
+    });
+
+    test('Kids > Tops & Shirts opens its page', async ({ homePage, page }) => {
+      await homePage.kidsCategoryLink.click();
+      await homePage.kidsTopsShirts.click();
+      await expect(page).toHaveURL(url => url.pathname === '/category_products/5');
+      await expect(homePage.panelTitle).toHaveText('Kids - Tops & Shirts Products');
+    });
+  });
+
+});
+
+test('test women link',{tag:'@test1'},async ({homePage,page})=>{
+  await homePage.womenCategoryLink.click();
+  await homePage.womenDress.click();
+  await homePage.womenCategoryLink.click();
+  await homePage.womenTops.click();
+  await homePage.womenCategoryLink.click();
+  await homePage.womenSaree.click();
+
+  await homePage.menCategoryLink.click();
+  await homePage.menTshirts.click();
+  await homePage.menCategoryLink.click();
+  await homePage.menJeans.click();
+  await homePage.kidsCategoryLink.click();
+  await homePage.kidsDress.click();
+  await homePage.kidsCategoryLink.click();
+  await homePage.kidsTopsShirts.click();
+  await page.waitForTimeout(2000);
+
+});
+
 // test("Home page - Verify all header links are visible",async ({homePage,page})=>{
   
 //   await softExpect(homePage.homeLink).toBeVisible();

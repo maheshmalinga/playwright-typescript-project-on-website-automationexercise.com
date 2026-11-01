@@ -1,3 +1,7 @@
+
+import dotenv from 'dotenv';
+dotenv.config();   // reads .env and fills process.env
+
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -5,6 +9,7 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true, /* Run tests in files in parallel */
   reporter: [['html', { open: 'never' }]],
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -13,7 +18,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     launchOptions: {
-      slowMo: 1000,  // Slow down operations by 500ms
+      slowMo: 1000,  // Slow down operations by 1000ms
     },
   },
 
